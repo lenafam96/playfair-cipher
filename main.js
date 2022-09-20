@@ -1,6 +1,5 @@
-let array = Array.from({
-    length: 5
-}, () => new Array());
+let array;
+   
 
 function findPos(letter){
     for (let index = 0; index < array.length; index++) {
@@ -60,9 +59,13 @@ function createMatrix(key){
             }
         }
     }
+
 }
 
 function encrypt(){
+    array = Array.from({
+        length: 5
+    }, () => new Array());
     let plain_text = document.getElementById('input_plain_text').value;
     let key = document.getElementById('key_encrypt').value.toUpperCase();
     key = Array.from(key).filter(function(letter){
@@ -77,6 +80,9 @@ function encrypt(){
     }
 
     createMatrix(key);
+
+
+    createMatrixDisplay("matrixEncrypt")
 
     let plain_text_array = Array.from(plain_text.toUpperCase().replace("J","I")).filter(function(letter){
         return letter.match(/[a-zA-Z]/i);
@@ -121,6 +127,9 @@ const saveFileEncrypt = () => {
 }
 
 function decrypt(){
+    array = Array.from({
+        length: 5
+    }, () => new Array());
     let cipher_text = document.getElementById('input_cipher_text').value;
     let key = document.getElementById('key_decrypt').value.toUpperCase();
     key = Array.from(key).filter(function(letter){
@@ -143,6 +152,7 @@ function decrypt(){
 
     for (let i = 0; i < cipher_text_array.length; i+=2) {
         plain_text_array = plain_text_array.concat(decryptCouple(cipher_text_array[i],cipher_text_array[i+1]));
+        console.log(cipher_text_array[i],cipher_text_array[i+1]);
     }
 
     result = plain_text_array.join("");
@@ -181,3 +191,25 @@ async function handleSaveFile(result,fileName){
     }
   }
 
+function createMatrixDisplay(id){
+    
+    const matrix = document.getElementById(id)
+    while(matrix.firstChild){
+        matrix.removeChild(matrix.lastChild)
+    }
+
+    const table = document.createElement("table")
+  
+    for (let i = 0; i < 5; i++) {
+      const trEle = document.createElement("tr")
+      for (let j = 0; j < 5; j++) {
+          const tdEle = document.createElement('td')
+        //   tdEle.id = 'cell-'+i+'-'+j;
+        tdEle.innerHTML= array[i][j]
+          trEle.appendChild(tdEle)
+      }
+      table.appendChild(trEle);
+      matrix.appendChild(table)
+    }
+}
+  
