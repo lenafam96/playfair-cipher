@@ -62,6 +62,22 @@ function createMatrix(key){
 
 }
 
+function cleanText(string){
+    let string_array = Array.from(string.toUpperCase().replace("J","I")).filter(function(letter){
+        return letter.match(/[a-zA-Z]/i);
+    });
+    let i = 0;
+    while (i<string_array.length) {
+        if(string_array[i]===string_array[i+1])
+            string_array.splice(i+1,0,"X");
+        i+=2;
+    }
+
+    if(string_array.length%2>0)
+        string_array.push("X");
+    return string_array;
+}
+
 function encrypt(){
     array = Array.from({
         length: 5
@@ -84,18 +100,7 @@ function encrypt(){
 
     createMatrixDisplay("matrixEncrypt")
 
-    let plain_text_array = Array.from(plain_text.toUpperCase().replace("J","I")).filter(function(letter){
-        return letter.match(/[a-zA-Z]/i);
-    });
-    let i = 0;
-    while (i<plain_text_array.length) {
-        if(plain_text_array[i]===plain_text_array[i+1])
-            plain_text_array.splice(i+1,0,"X");
-        i+=2;
-    }
-
-    if(plain_text_array.length%2>0)
-        plain_text_array.push("X");
+    let plain_text_array = cleanText(plain_text);
 
     let cipher_text_array = [];
     for (let i = 0; i < plain_text_array.length; i+=2) {
@@ -146,9 +151,7 @@ function decrypt(){
 
     createMatrix(key);
 
-    let cipher_text_array = Array.from(cipher_text.toUpperCase().replace("J","I")).filter(function(letter){
-        return letter.match(/[a-zA-Z]/i);
-    });
+    let cipher_text_array = cleanText(cipher_text);
 
     for (let i = 0; i < cipher_text_array.length; i+=2) {
         plain_text_array = plain_text_array.concat(decryptCouple(cipher_text_array[i],cipher_text_array[i+1]));
