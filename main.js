@@ -87,7 +87,10 @@ function createMatrix(key){
 }
 
 function cleanText(string){
-    let string_array = Array.from(string.toUpperCase().replace("J","I")).filter(function(letter){
+    string = string.toUpperCase();
+    while(string.includes("J"))
+        string = string.replace("J","I");
+    let string_array = Array.from(string).filter(function(letter){
         return letter.match(/[a-zA-Z]/i);
     });
     let i = 0;
@@ -124,6 +127,7 @@ function encrypt(){
 
     createMatrixDisplay("matrixEncrypt")
 
+    
     let plain_text_array = cleanText(plain_text);
 
     let cipher_text_array = [];
@@ -179,8 +183,6 @@ function decrypt(){
     createMatrix(key);
     createMatrixDisplay("matrixDecrypt")
     let cipher_text_array = cleanText(cipher_text);
-    console.log(cipher_text);
-
     for (let i = 0; i < cipher_text_array.length; i+=2) {
         let obj = decryptCouple(cipher_text_array[i],cipher_text_array[i+1]);
         plain_text_array = plain_text_array.concat(obj["let1"],obj["let2"]);
