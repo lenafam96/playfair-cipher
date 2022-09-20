@@ -150,7 +150,7 @@ function decrypt(){
     }
 
     createMatrix(key);
-
+    createMatrixDisplay("matrixDecrypt")
     let cipher_text_array = cleanText(cipher_text);
 
     for (let i = 0; i < cipher_text_array.length; i+=2) {
