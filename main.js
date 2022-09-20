@@ -14,16 +14,28 @@ function encryptCouple(letter1, letter2){
     if(x[0]===y[0]){
         let ch1 = x[1]===4?array[x[0]][0]:array[x[0]][x[1]+1];
         let ch2 = y[1]===4?array[y[0]][0]:array[y[0]][y[1]+1];
-        return [ch1,ch2];
+        return {
+            let1:ch1,
+            let2:ch2,
+            case:1
+        };
     }
     if(x[1]===y[1]){
         let ch1 = x[0]===4?array[0][x[1]]:array[x[0]+1][x[1]];
         let ch2 = y[0]===4?array[0][y[1]]:array[y[0]+1][y[1]];
-        return [ch1,ch2];
+        return {
+            let1:ch1,
+            let2:ch2,
+            case:2
+        };
     }
     let ch1 = array[x[0]][y[1]];
     let ch2 = array[y[0]][x[1]];
-    return [ch1,ch2];
+    return {
+        let1:ch1,
+        let2:ch2,
+        case:3
+    };
 }
 
 function decryptCouple(letter1, letter2){
@@ -32,16 +44,28 @@ function decryptCouple(letter1, letter2){
     if(x[0]===y[0]){
         let ch1 = x[1]===0?array[x[0]][4]:array[x[0]][x[1]-1];
         let ch2 = y[1]===0?array[y[0]][4]:array[y[0]][y[1]-1];
-        return [ch1,ch2];
+        return {
+            let1:ch1,
+            let2:ch2,
+            case:1
+        };
     }
     if(x[1]===y[1]){
         let ch1 = x[0]===0?array[4][x[1]]:array[x[0]-1][x[1]];
         let ch2 = y[0]===0?array[4][y[1]]:array[y[0]-1][y[1]];
-        return [ch1,ch2];
+        return {
+            let1:ch1,
+            let2:ch2,
+            case:2
+        };
     }
     let ch1 = array[x[0]][y[1]];
     let ch2 = array[y[0]][x[1]];
-    return [ch1,ch2];
+    return {
+        let1:ch1,
+        let2:ch2,
+        case:3
+    };
 }
 
 function createMatrix(key){
@@ -104,8 +128,11 @@ function encrypt(){
 
     let cipher_text_array = [];
     for (let i = 0; i < plain_text_array.length; i+=2) {
-        cipher_text_array = cipher_text_array.concat(encryptCouple(plain_text_array[i],plain_text_array[i+1]));
+        let obj = encryptCouple(plain_text_array[i],plain_text_array[i+1]);
+        cipher_text_array = cipher_text_array.concat(obj["let1"],obj["let2"]);
     }
+
+    createTableResult("doubleLetterEncrypt",plain_text_array,cipher_text_array);
     
     result = cipher_text_array.join("")
 
@@ -152,11 +179,14 @@ function decrypt(){
     createMatrix(key);
     createMatrixDisplay("matrixDecrypt")
     let cipher_text_array = cleanText(cipher_text);
+    console.log(cipher_text);
 
     for (let i = 0; i < cipher_text_array.length; i+=2) {
-        plain_text_array = plain_text_array.concat(decryptCouple(cipher_text_array[i],cipher_text_array[i+1]));
-        console.log(cipher_text_array[i],cipher_text_array[i+1]);
+        let obj = decryptCouple(cipher_text_array[i],cipher_text_array[i+1]);
+        plain_text_array = plain_text_array.concat(obj["let1"],obj["let2"]);
     }
+
+    createTableResult("doubleLetterDecrypt",cipher_text_array,plain_text_array);
 
     result = plain_text_array.join("");
     
@@ -215,4 +245,32 @@ function createMatrixDisplay(id){
       matrix.appendChild(table)
     }
 }
+
+
+function createTableResult(id,arr1, arr2){
+    
+    const element = document.getElementById(id)
+    while(element.firstChild){
+        element.removeChild(element.lastChild)
+    }
+
+    const table = document.createElement("table")
   
+    for (let i = 0; i < arr1.length; i+=2) {
+      const trEle = document.createElement("tr");
+      const td1 = document.createElement("td");  
+      const td2 = document.createElement("td");  
+      const td3 = document.createElement("td");  
+      const td4 = document.createElement("td");
+      td1.innerHTML = arr1[i]+  arr1[i+1];
+      td2.innerHTML = "&rarr;";
+      td3.innerHTML = arr2[i]+  arr2[i+1];
+      td4.innerHTML = "TH" + encryptCouple(arr1[i],arr1[i+1])["case"];
+      trEle.appendChild(td1);
+      trEle.appendChild(td2);
+      trEle.appendChild(td3);
+      trEle.appendChild(td4);
+      table.appendChild(trEle);
+      element.appendChild(table)
+    }
+}
