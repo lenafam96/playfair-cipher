@@ -252,6 +252,7 @@ function createMatrixDisplay(id){
 function createTableResult(id,arr1, arr2){
     
     const element = document.getElementById(id)
+    element.style.display = "block"
     while(element.firstChild){
         element.removeChild(element.lastChild)
     }
@@ -267,7 +268,7 @@ function createTableResult(id,arr1, arr2){
       td1.innerHTML = arr1[i]+  arr1[i+1];
       td2.innerHTML = "&rarr;";
       td3.innerHTML = arr2[i]+  arr2[i+1];
-      td4.innerHTML = "TH" + encryptCouple(arr1[i],arr1[i+1])["case"];
+      td4.innerHTML = `( TH${encryptCouple(arr1[i],arr1[i+1])["case"]})` ;
       trEle.appendChild(td1);
       trEle.appendChild(td2);
       trEle.appendChild(td3);

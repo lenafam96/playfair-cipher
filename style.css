@@ -136,4 +136,17 @@ td.button {
     max-width: 350px;
     width: 350px;
     height: 272px;
+    overflow-y: scroll ;
+    display: none;
+}
+.doubleLetter table{
+width: 100%;
+}
+.doubleLetter td{
+  width: 25%;
+  text-align: center;
+}
+.doubleLetter tr{
+  width: 100%;
+  line-height: 2;
 }
