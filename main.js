@@ -189,10 +189,15 @@ function decrypt(){
     }
 
     createTableResult("doubleLetterDecrypt",cipher_text_array,plain_text_array);
+    
+    let plain_text_origin = document.getElementById('input_plain_text').value;
 
     result = plain_text_array.join("");
-    
+    if(document.getElementById("checkbox").checked && plain_text_origin!=="" ){
+        result = plain_text_origin;
+    }
     plain_text.innerHTML = result;
+
 }
 
 const saveFileDecrypt = () => {

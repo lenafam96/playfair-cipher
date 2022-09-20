@@ -150,3 +150,22 @@ width: 100%;
   width: 100%;
   line-height: 2;
 }
+.btn-primary input{
+  text-align: center;
+  margin-top: 20px;
+}
+
+.button{
+  position: relative;
+}
+input[type="checkbox"]{
+  position: absolute;
+  bottom: 0;
+  right: 170px;
+}
+.button label{
+  position: absolute;
+  bottom: 5px;
+  right: 110px;
+  font-size: 20px;
+}
